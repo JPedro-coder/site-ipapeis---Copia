@@ -1,0 +1,2614 @@
+:root{
+      --navy: #09205f; /* azul marinho */
+      --white: #ffffff;
+      --muted: #6c757d;
+      --accent: #0f4978; /* variação para efeitos */
+      --primary-blue: #004a99;
+        --dark-blue: #002d5e;
+        --accent-kraft: #d4a373;
+        --light-bg: #f4f7f6;
+        --text-color: #334155;
+      --glass: rgba(255,255,255,0.06);
+    }
+
+    html{
+      scroll-behavior: smooth;
+
+    }
+
+    /* Reset visual básico */
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+    }
+
+    body{
+      color:var(--navy);
+      background:linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }   
+    
+    /* PRELOADER */
+#preloader{
+  position: fixed;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  background: linear-gradient(180deg, rgba(1, 58, 170, 0.95), rgba(121, 170, 243, 0.95));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* central box */
+.preloader-inner{
+  width: min(760px, 92%);
+  max-width: 760px;
+  text-align:center;
+  padding:28px;
+  border-radius:14px;
+  box-shadow: 0 18px 50px rgba(16,24,40,0.08);
+  background: linear-gradient(180deg, rgba(245, 209, 127, 0.95), rgba(84, 173, 255, 0.85));
+  display:grid;
+  gap:18px;
+  align-items:center;
+  grid-template-columns: 120px 1fr;
+}
+
+/* responsivo: empilha */
+@media (max-width:720px){
+  .preloader-inner{ grid-template-columns: 1fr; padding:20px; gap:12px; }
+}
+
+/* logo */
+.pl-logo{
+  width:110px;
+  height:auto;
+  margin:auto;
+  display:block;
+  transform-origin:center;
+}
+
+/* stroke (desenho) */
+.logo-stroke{
+  stroke: #0f172a; /* cor do traço - ajuste */
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  transition: stroke-dashoffset 1.2s ease-out;
+}
+
+/* pre-finish (aplicado via JS) */
+.pl-animate .logo-stroke{
+  stroke-dashoffset: 0;
+}
+
+/* center title */
+.pl-title{
+  font-weight:700;
+  font-size:20px;
+  color:#0f172a;
+  text-align:left;
+}
+
+/* progress */
+.pl-progress-wrap{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:300px;
+  grid-column: 2 / 3;
+}
+
+.pl-progress{
+  flex:1;
+  height:8px;
+  background:#72abf1;
+  border-radius:8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.pl-progress-bar{
+  display:block;
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, #0f3acb, #0d6efd);
+  transition: width 220ms linear;
+}
+
+/* percent text */
+.pl-percent{
+  min-width:46px;
+  text-align:right;
+  font-weight:600;
+  color:#475569;
+}
+
+/* small animated boxes (visual brand hint) */
+.pl-boxes{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  grid-column: 2 / 3;
+  margin-top:6px;
+}
+
+.box{
+  width:22px;
+  height:22px;
+  background: linear-gradient(180deg,#fff,#f3f6ff);
+  border:1px solid #e6edf9;
+  border-radius:4px;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+  transform-origin:center;
+  opacity:0.95;
+}
+
+/* staggered pop */
+.box.b1 { animation: boxPop 1.2s infinite 0s; }
+.box.b2 { animation: boxPop 1.2s infinite 0.12s; }
+.box.b3 { animation: boxPop 1.2s infinite 0.24s; }
+
+@keyframes boxPop {
+  0% { transform: translateY(0) scale(1); opacity:0.95; }
+  35% { transform: translateY(-8px) scale(1.04); opacity:1; }
+  70% { transform: translateY(0) scale(1); opacity:0.95; }
+  100% { transform: translateY(0) scale(1); opacity:0.95; }
+}
+
+/* hide state */
+#preloader.hidden{
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* small accessibility helper: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .logo-stroke { transition: none; stroke-dashoffset: 0; }
+  .box { animation: none; }
+  .pl-progress-bar { transition: none; }
+}
+
+    /* Navbar */
+    .navbar{
+      position: fixed !important;
+      background-color: #dee5f3;
+      top: 0;
+      width: 100%;
+      margin-bottom: 8rem;
+      min-height: 80px; /* Use min-height em vez de height fixa */
+      z-index: 1050;
+      transition: all 0.3s ease-in-out;
+      transform: translateY(0);
+    }
+
+    /* Esta classe será adicionada pelo JavaScript para esconder o menu */
+    .nav-hidden {
+        transform: translateY(-100%);
+    }
+
+    /* Ajuste para o logo não ficar gigante */
+    .fotoBobina {
+        max-height: 60px;
+        width: auto;
+    }
+
+    .navbar .navbar-brand{
+      color:var(--navy);
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+
+    .nav-item {
+    position: relative; /* Necessário para o efeito do ::after funcionar */
+  }
+
+    .nav-link{
+      color:var(--navy);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: large;
+      padding: 10px 15px !important;
+      display: inline-block;
+      
+    }
+
+   .nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;
+  bottom:-6px;
+  height:3px;
+  width:0;
+  background:linear-gradient(90deg,rgb(173, 209, 255),#042263);
+  border-radius:3px;
+  transition:width .25s;
+}
+
+
+    .nav-link:hover{
+        color: rgb(54, 81, 201);
+        transform:translateY(-3px);
+    }
+    .nav-link:hover::after{
+        width:100%;
+    }
+
+    /* botão "solicitar orçamento" */
+  .btn-elegante {
+
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #113588, #1e3a8a);
+    color: white;
+    padding: 8px 36px;
+    border: none;
+    border-radius: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover elegante */
+.btn-elegante:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Efeito Ripple */
+.btn-elegante::after {
+  content: "";
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 45%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
+}
+
+.btn-elegante:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+.btn-elegante span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ajustes para Mobile (telas menores que 992px) */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: #dee5f3; /* Fundo do menu aberto */
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 10px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+
+    .nav-item {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .ms-3 {
+        margin-left: 0 !important; /* Remove o recuo do botão no mobile */
+    }
+    
+    .nav-link::after {
+        display: none; /* Remove a linha de hover no mobile para não poluir */
+    }
+}
+
+/* Mantém seus efeitos de hover apenas no Desktop */
+@media (min-width: 992px) {
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 0;
+        height: 3px;
+        width: 0;
+        background: linear-gradient(90deg, rgb(173, 209, 255), #042263);
+        border-radius: 3px;
+        transition: width .25s;
+    }
+
+    .nav-link:hover::after {
+        width: calc(100% - 30px);
+    }
+}
+
+/* Título de destaque */
+
+  .titulo-destaque {
+  grid-column: 1 / -1;
+  margin-right: auto;  /* empurra para a esquerda */
+  margin-left: 1.5vw;    /* distância da borda esquerda */
+  text-align: left;
+  transform: translateY(-90px);
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: #b0b8ef;
+  position: relative;
+  border-radius: 15px;
+  max-width: 500px;
+  }
+
+  .hero-text{
+    font: montserrat, sans-serif;
+    margin-top: 6rem;
+  }
+
+/* Se no mobile o cabeçalho for menor ou maior, ajuste aqui: */
+
+@media (max-width: 991px) {
+    .hero-text {
+        padding-top: 7rem; 
+    }
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    color: #0520cf;
+    max-width: 400px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+
+}
+
+/* inicio secção irmão siqueira */
+      .containerSiqueira {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+      }
+
+      /* --- Estilo do Cabeçalho --- */
+      .history-header {
+        text-align: left;
+        margin-bottom: 60px;
+        border-left: 8px solid var(--primary-blue);
+        padding-left: 25px;
+      }
+
+      .history-header h1 {
+        font-family: "Montserrat", sans-serif;
+        color: var(--primary-blue);
+        margin-top: 2.5vh;
+        font-size: 2.8rem;
+        padding-bottom: 1.3vh;
+        margin: 0;
+        line-height: 1.1;
+      }
+
+      .texto-siqueira {
+        max-width: 70%;
+        text-indent: 2em;
+        margin: 0 auto 60px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text-color);
+      }
+
+      .history-header p {
+        font-size: 1.2rem;
+        color: var(--accent-kraft);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 10px;
+      }
+
+      /* --- Timeline com Fotos --- */
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        margin-bottom: 100px;
+      }
+
+      .timeline-item {
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+        border: 1px solid #eee;
+      }
+
+      .timeline-item:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary-blue);
+      }
+
+      .timeline-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background-color: #ddd; /* Cor de fundo caso a imagem falhe */
+      }
+
+      .timeline-content {
+        padding: 25px;
+      }
+
+      .year-badge {
+        background: var(--primary-blue);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .timeline-content h3 {
+        margin: 15px 0 10px;
+        color: var(--dark-blue);
+      }
+
+      /*---seção contadores ---*/
+
+      /* Container Geral */
+.producao-section {
+    padding: 60px 20px;
+    background-color: #f8f9fa; /* Um cinza bem claro para destacar o card branco */
+}
+
+.producao-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* O Card Branco */
+.producao-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Cabeçalho */
+.producao-header h3 {
+    color: var(--primary-blue, #004a99);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.producao-header p {
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin-top: 2.2vw;
+    margin-bottom: 2.4vw;
+}
+
+/* Grade dos Contadores (O "pulo do gato" para ficarem lado a lado) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Divide em 3 colunas iguais */
+    gap: 30px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 40px;
+}
+
+.stat-item h2 {
+    color: var(--primary-blue, #004a99);
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.stat-item p {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.4;
+}
+
+/* Responsividade: No celular, eles empilham */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr; /* Vira uma coluna só */
+        gap: 40px;
+    }
+    
+    .producao-card {
+        padding: 25px;
+    }
+
+    .stat-item h2 {
+        font-size: 2rem;
+    }
+}
+
+      /* --- Seção de Produtos (Papelão Ondulado) --- */
+      .product-section {
+        background: var(--dark-blue);
+        color: white;
+        border-radius: 30px;
+        padding: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .texto-produtos {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+      }
+
+      /* Detalhe visual de fundo */
+      .product-section::after {
+        content: "";
+        position: absolute;
+        right: -50px;
+        top: -50px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+      }
+
+      .product-info h2 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+      }
+
+      .product-info p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .product-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+  text-align: center;
+
+        backdrop-filter: blur(5px);
+      }
+
+      .product-card i {
+        font-size: 2.5rem;
+        color: var(--accent-kraft);
+        margin-bottom: 15px;
+      }
+
+      /* Responsividade */
+      @media (max-width: 900px) {
+        .product-section {
+          grid-template-columns: 1fr;
+          padding: 40px 20px;
+        }
+        .history-header h1 {
+          font-size: 2.2rem;
+        }
+      }
+
+/* Fim secção irmão siqueira */
+
+
+
+
+
+
+/* Contador animado */
+.estatisticas {
+  padding: 100px 20px;
+  text-align: center;
+  background: #f8fafc;
+}
+
+.stat {
+  margin: 40px 0;
+}
+
+.contador {
+  font-size: 48px;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+ /* Hero Section */
+.hero {
+    height: 100vh;
+    background: url('img/floresta1.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+    position: relative;
+}
+
+.hero-content h1 {
+    font-size: 7rem;
+    font-family: 'montserrat', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    max-width: 800px;
+    font-weight: bold;
+    padding-top: 6rem;
+    margin-bottom: 20px;
+    line-height: 2.5rem;
+    color: #042263;
+    position: relative;
+    top: -100px; /* Ajusta a posição vertical para ficar mais centralizado */
+}
+
+.hero::before {
+  content: "";
+  font-family: 'montserrat', 'Gill Sans MT', Calibri, sans-serif;
+  background: linear-gradient(180deg, rgba(26, 105, 184, 0.638) 20%,rgba(52, 103, 168, 0.082),  #2575ee00 100%);
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+}
+
+.hero-content p {
+    font-size: 2rem;
+    font-family: 'montserrat', 'Gill Sans MT', Calibri, sans-serif;
+    opacity: 0.9;
+    z-index: 2;
+    padding-top: 0.7rem;
+    color: var(--light-bg);
+    position: relative;
+    top: -90px; /* Ajusta a posição vertical para ficar mais centralizado */
+}
+
+  .titulo-destaque span {
+    font-size: 1rem; 
+  }
+
+  @media (max-width: 768px){
+
+  .titulo-destaque{
+    font-size: 1.9rem;
+  }
+
+}
+
+/* Seção de Cards de Destaque */
+    /* Container Principal */
+.cards-destaque {
+  background: linear-gradient(180deg, #010500, #ffffff);
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 3rem;
+  margin-bottom: 4rem;
+}
+
+/* Base do Card */
+.card {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px; /* Bordas mais arredondadas para um ar moderno */
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #f0f2f5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* Sombra quase imperceptível */
+}
+
+/* Efeito de Hover */
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 74, 153, 0.1); /* Sombra azulada sutil da Ipapeis */
+  border-color: #004a99;
+}
+
+/* O Card em Destaque (Entrega Rápida) */
+.card.destaque {
+  background: linear-gradient(145deg, #ffffff, #f0f7ff);
+  border: 2px solid #004a99;
+  position: relative;
+}
+
+/* Estilo do Ícone */
+.card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  background: #f8fafc;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Tipografia */
+.card h3 {
+  color: #0b2340; /* Navy dark */
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.card p {
+  color: #64748b; /* Cinza slate suave */
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cards-destaque {
+    grid-template-columns: 1fr; /* Um por linha no celular */
+    padding: 10px;
+  }
+}
+
+/*Fim secão cards de destaque */
+
+.titulo-conceitual {
+  display: flex;
+  padding-right: 2rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  font-size: 2.6rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.titulo-conceitual span {
+  font-weight: 700;
+  color: var(--primaria);
+}
+
+.titulo-conceitual .arvore {
+  width: 72px;
+  height: auto;
+}
+
+
+.projeto-texto h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #c59054;
+}
+
+.arvore{
+    width: 120px;
+    height: auto;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .cards-destaque {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+    /* Hero */
+    .leadTotal {
+    height: 100vh;
+    background-image: linear-gradient(rgba(2, 2, 5, 0.582), rgba(15, 15, 17, 0.541)), url('img/floresta_1x.webp');
+    text-shadow: 2px 2px 4px rgba(8, 9, 14, 0.856); /* Sombra sutil para dar profundidade */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-bg);
+    padding: 0 20px;
+    position: relative;
+    padding: 70px 0
+}
+
+    .leadTotal .tag{
+      display:inline-block;
+      background: linear-gradient(rgba(255, 233, 209, 0.849)65), rgba(247, 186, 145, 0.452);
+      color: #f3cca6;
+      padding:6px 12px;
+      border-radius:30px;
+      font-weight:600;
+      margin-bottom:18px
+    }
+
+    .hero h1{
+      font-size:2.6rem;
+      color:var(--light-bg);
+      line-height:1.05;
+      font-family: 'montserrat', 'Gill Sans MT', Calibri, sans-serif;
+    }
+
+    .hero p.lead{
+      color:var(--muted);
+      font-weight: bold;
+      font-size:1.2rem
+    }
+
+    .hero-illustration{
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(11,35,64,0.12);
+      background:linear-gradient(180deg,var(--white), #eef6ff);
+      padding:30px
+    }
+
+    /* Container dos botões */
+.hero-buttons {
+    display: flex;
+    gap: 16px;          /* Espaço entre os botões */
+    margin-top: 24px;   /* Espaço acima dos botões */
+}
+
+/* Base comum para ambos os botões */
+.btn-orcamento, 
+.btn-whatsapp {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease; /* Transição suave para o hover */
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Botão Principal (Azul Ipapeis) */
+
+.hero-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: center;  /* ALINHAMENTO HORIZONTAL: Centraliza no meio da tela */
+    align-items: center;      /* ALINHAMENTO VERTICAL: Garante que fiquem na mesma altura */
+    gap: 2rem;          /* Espaço entre os botões */
+    margin-top: 24px;   /* Espaço acima dos botões */
+}
+
+.btn-orcamento {
+    background-color: #004a99;
+    color: #ffffff;
+    border: 2px solid #eceff1;
+}
+
+.btn-orcamento:hover {
+    background-color: #003670;
+    border-color: #003670;
+    transform: translateY(-2px); /* Leve subida ao passar o mouse */
+    box-shadow: 0 4px 12px rgba(0, 74, 153, 0.3);
+}
+
+/* Botão WhatsApp (Vazado/Outline) */
+.btn-whatsapp {
+    background-color: #3b8fe9 ;
+    color: #ffffff;            /* Assumindo que o fundo é escuro */
+    border: 2px solid #ffffff;
+}
+
+.btn-whatsapp:hover {
+    background-color: #ffffff;
+    color: #004a99;            /* Inverte a cor no hover */
+    transform: translateY(-2px);
+}
+
+/* Ajuste para celular */
+@media (max-width: 576px) {
+    .hero-buttons {
+        flex-direction: column; /* Empilha os botões no celular */
+        width: 100%;
+    }
+    
+    .btn-orcamento, 
+    .btn-whatsapp {
+        width: 100%; /* Botões ocupam a largura toda no celular */
+    }
+}
+
+
+    /*seção laboratório*/
+    
+    /* Container da Seção */
+.laboratorio-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/foto-inovacao.jpg');
+    background-size: cover;           /* FAZ A MÁGICA: Redimensiona a imagem para cobrir tudo sem distorcer */
+    background-position: center;      /* Centraliza a imagem para não cortar o que é importante */
+    background-repeat: no-repeat;     /* Impede que a imagem fique se repetindo como um mosaico */
+    background-attachment: fixed;     /* Opcional: cria um efeito 'Parallax' elegante ao rolar a página */
+    height: 100%;    
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;         /* Centraliza o conteúdo verticalmente sobre a imagem */
+}
+
+/* Cabeçalho */
+.lab-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.lab-header h2 {
+  color: var(--light-bg, #ebf5ff);
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.textoLab {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Grid de 4 Colunas */
+.lab-grid {
+  display: grid;
+  margin: 2.2em;
+  grid-template-columns: repeat(4, 1fr); /* 4 colunas iguais */
+  gap: 25px;
+}
+
+/* Estilo do Card individual */
+.lab-card {
+  padding: 30px 20px;
+  background: #f8fafc; /* Um cinza muito suave */
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.lab-card:hover {
+  transform: translateY(-5px);
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 74, 153, 0.1);
+  border-color: var(--primary-blue, #004a99);
+}
+
+/* Ícones e Tipografia interna */
+.lab-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.lab-card h6 {
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.lab-card p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* O GRADIENTE MÁGICO */
+.laboratorio-section::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%; /* Altura da transição */
+    z-index: 1;
+}
+
+
+
+.laboratorio-section .container{
+  position: relative;
+  z-index: 2;
+}
+
+.lab-card{
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.textoLab{
+  color: #e5eef7;
+  font-size: 1.1rem;
+}
+
+.lab-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.lab-icon{
+  font-size: 32px;
+}
+
+
+/*Fim seção laboratório*/
+
+
+/* =========================================
+   ESTILOS Logistica (Compartilhados)
+   ========================================= */
+.text-primary { color: #004a99 !important; } /* Azul Ipapeis */
+.bg-primary { background-color: #004a99 !important; }
+
+/* =========================================
+   SEÇÃO: FROTA MODERNA (LOGÍSTICA)
+   ========================================= */
+.tag-logistica {
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    color: #a1cfff !important; /* Azul clarinho para contraste */
+}
+
+.title-frota {
+    color: #0b2340 !important;
+}
+
+/* Estilos dos Cards da Grade */
+.frota-card-main,
+.frota-card-photo,
+.frota-card-info {
+    transition: all 0.4s ease;
+    border: 1px solid #e6eef9;
+}
+
+/* Efeito de hover geral para os cards */
+.frota-card-main:hover,
+.frota-card-photo:hover,
+.frota-card-info:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 74, 153, 0.08) !important;
+    border-color: #004a99 !important;
+}
+
+/* Card Principal (Texto + Foto) */
+.frota-card-main {
+    background-color: #f8fafc; /* Fundo cinza bem claro */
+}
+
+.frota-img-bg {
+    max-width: 60%; /* Tamanho controlado da imagem no card */
+    opacity: 0.8;
+    z-index: 1;
+}
+
+/* Cards de Foto Média */
+.frota-card-photo {
+    min-height: 250px; /* Garante altura mínima */
+}
+
+.photo-overlay {
+    background: linear-gradient(to top, rgba(11, 35, 64, 0.8) 0%, rgba(11, 35, 64, 0) 100%);
+    z-index: 2;
+}
+
+.frota-card-photo p {
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Card de Informação (Azul) */
+.frota-card-info .bi {
+    color: #a1cfff; /* Ícones em azul claro */
+}
+
+/* =========================================
+   RESPONSIVIDADE (FOCO TOTAL)
+   ========================================= */
+/* Tablets e Celulares em Paisagem */
+@media (max-width: 991px) {
+    .title-frota {
+        font-size: 2.5rem !important;
+    }
+    
+    .frota-card-main {
+        padding: 40px !important;
+    }
+    
+    .frota-img-bg {
+        max-width: 80%; /* Aumenta imagem no tablet */
+        opacity: 0.5; /* Escurece um pouco mais para leitura */
+    }
+}
+
+/* Celulares em Retrato (Mobile First) */
+@media (max-width: 767px) {
+    #frota-logistica h2 {
+        font-size: 2rem !important;
+    }
+    
+    .desc-frota {
+        font-size: 1rem !important;
+    }
+    
+    .frota-card-main, .frota-card-info {
+        padding: 30px !important;
+    }
+    
+    .frota-img-bg {
+        display: none; /* Esconde a imagem de fundo no card principal no mobile para limpar */
+    }
+    
+    .frota-card-photo {
+        min-height: 200px; /* Altura menor no mobile */
+    }
+    
+    .frota-card-info .row .col-md-4 {
+        margin-bottom: 30px; /* Espaço entre os ícones no mobile */
+    }
+    
+    .frota-card-info .row .col-md-4:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+/* =========================================
+   ESTILOS DO HERO CARROSSEL (INVESTIMENTOS)
+   ========================================= */
+#investimentos-hero {
+    height: 100vh; /* Ocupa 100% da altura da janela do navegador */
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Estilo para as imagens de fundo de cada slide */
+#investimentos-hero .carousel-item {
+    height: 100vh;
+    background-size: cover; /* Cobre todo o espaço sem distorcer */
+    background-position: center center; /* Centraliza a foto */
+    background-repeat: no-repeat;
+}
+
+#investimentos-hero .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#investimentos-hero .carousel-item {
+    width: 100%; /* Use % em vez de vw para evitar conflito com a barra vertical */
+    height: 100vh;
+
+}
+/* O Segredo do Contraste: Overlay Escuro */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente sutil para escurecer a foto e destacar o texto branco */
+    background: linear-gradient(135deg, rgba(11, 35, 64, 0.9) 0%, rgba(11, 35, 64, 0.5) 100%);
+    z-index: 1;
+}
+
+/* Garante que o conteúdo fique acima do overlay */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUpRH 1s ease-out; /* Animação suave ao entrar */
+}
+
+/* Estilos de Tipografia Hero */
+.tag-hero {
+    color: #a1cfff; /* Um azul clarinho para a tag */
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+.title-hero {
+    line-height: 1.1;
+}
+
+.paragrafoInvest {
+    line-height: 1.7;
+    margin-top: 3rem; /* CRUCIAL: Garante que o texto não sobreponha o título */
+    color: #ffffff 
+}
+
+/* Customização dos Controles do Carrossel */
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 3;
+    width: 5%; /* Mais discreto nas laterais */
+}
+
+.carousel-indicators {
+    z-index: 3;
+    bottom: 30px; /* Sobe um pouco os pontinhos */
+}
+
+/* =========================================
+   RESPONSIVIDADE (FOCO TOTAL)
+   ========================================= */
+/* Tablets e Celulares em Paisagem */
+@media (max-width: 991px) {
+    .title-hero {
+        font-size: 3rem !important; /* Diminui o título no tablet */
+    }
+}
+
+/* Celulares em Retrato (Mobile First) */
+@media (max-width: 767px) {
+    #investimentos-hero {
+        height: 80vh; /* Reduz um pouco a altura no celular para não esconder o resto do site */
+    }
+    #investimentos-hero .carousel-item {
+        height: 80vh;
+    }
+    
+    .hero-content {
+        text-align: center; /* Centraliza o texto no mobile */
+        padding: 0 20px !important;
+    }
+    
+    .title-hero {
+        font-size: 2.2rem !important; /* Título menor e legível no celular */
+        margin-bottom: 20px !important;
+    }
+    
+    .desc-hero {
+        font-size: 1rem !important; /* Texto descritivo padrão */
+    }
+    
+    .carousel-indicators {
+        bottom: 15px; /* Ajusta os indicadores */
+    }
+    
+    /* Esconde os controles laterais no mobile para limpar o visual */
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+}
+
+/* Animação de Entrada */
+@keyframes fadeInUpRH {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================
+   RESPONSIVIDADE (FOCO TOTAL)
+   ========================================= */
+/* Tablets e Celulares em Paisagem */
+@media (max-width: 991px) {
+    .title-hero {
+        font-size: 3rem !important; /* Diminui o título no tablet */
+    }
+}
+
+/* Celulares em Retrato (Mobile First) */
+@media (max-width: 767px) {
+    #investimentos-hero {
+        height: 85vh; /* Reduz um pouco a altura no celular para não esconder o resto do site */
+    }
+    #investimentos-hero .carousel-item {
+        height: 85vh;
+    }
+    
+    .hero-content-wrapper {
+        text-align: center; /* Centraliza o texto no mobile */
+        padding: 0 20px !important;
+    }
+    
+    .title-hero {
+        font-size: 2.2rem !important; /* Título menor e legível no celular */
+        margin-bottom: 20px !important;
+    }
+    
+    .desc-hero {
+        font-size: 1rem !important;
+        margin-top: 15px; /* Ajusta o espaçamento */
+    }
+    
+    .carousel-indicators {
+        bottom: 15px;
+    }
+    
+    /* Esconde os controles laterais no mobile para limpar o visual */
+    .carousel-control-prev,
+    .carousel-control-next {
+        display: none;
+    }
+}
+
+/* Animação de Entrada */
+@keyframes fadeInUpRH {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/*Fim seção investimentos*/
+
+/*Seção RH*/
+                     /* Container Principal da Seção */
+.rh-section {
+    padding: 100px 20px;
+    background-color: #f8fafc; /* Um cinza muito suave para destacar do branco */
+    overflow: hidden; /* Garante que nada vaze */
+}
+
+.rh-container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas iguais */
+    gap: 60px; /* Espaço entre texto e fotos */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+/* --- ESTILOS DO CONTEÚDO (TEXTO) --- */
+.rh-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rh-tag {
+    display: inline-block;
+    background-color: rgba(0, 74, 153, 0.1); /* Azul Ipapeis clarinho */
+    color: var(--primary-blue, #004a99);
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    align-self: flex-start; /* Não deixa a tag esticar */
+}
+
+.rh-content h2 {
+    font-size: 2.8rem;
+    color: var(--navy);
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.rh-description {
+    font-size: 1.1rem;
+    color: #64748b; /* Cinza suave para leitura */
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* Estilos dos Pilares do RH */
+.rh-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 20px;
+}
+
+.pillar-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s ease;
+}
+
+.pillar-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-blue, #004a99);
+}
+
+.pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.pillar-item h4 {
+    font-size: 1rem;
+    color: var(--navy-dark, #0b2340);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.pillar-item p {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* --- ESTILOS DA GALERIA DE FOTOS --- */
+.rh-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Grade de 2 colunas */
+    grid-template-rows: repeat(2, 300px); /* 2 linhas de 250px */
+    gap: 15px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden; /* Corta a imagem no formato do card */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    transition: transform 0.5s ease;
+}
+
+/* Efeito de Zoom na foto ao passar o mouse */
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+/* Tamanhos especiais dos itens da galeria */
+.gallery-item.large {
+    grid-column: 1 / -1; /* Ocupa as duas colunas */
+}
+
+/* Legendas nas fotos */
+.photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/*recrutamento rh*/
+
+/* =========================================
+   ESTILOS GERAIS RH (Compartilhados)
+   ========================================= */
+.py-120 { padding-top: 120px; padding-bottom: 120px; }
+.text-primary { color: #004a99 !important; } /* Azul Ipapeis */
+
+/* =========================================
+   SEÇÃO DE RECRUTAMENTO (OPÇÃO 2)
+   ========================================= */
+.border-end-rh {
+    border-right: 1px solid #e2e8f0; /* Linha divisória sutil */
+}
+
+/* Botão Outline RH */
+.btn-outline-rh {
+    color: #004a99;
+    background-color: transparent;
+    border: 2px solid #004a99;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-rh:hover {
+    background-color: #004a99; /* Preenchimento total no hover */
+    color: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 74, 153, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Responsividade da Seção */
+@media (max-width: 767px) {
+    .py-120 { padding-top: 80px; padding-bottom: 80px; }
+    .border-end-rh {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+        padding-right: 0 !important;
+    }
+    .ps-md-5 {
+        padding-left: 0 !important;
+    }
+}
+
+/* =========================================
+   MODAL DE RECRUTAMENTO (CARD LADO A LADO)
+   ========================================= */
+/* Personalização do Card (Modal) */
+.modal-content {
+    background-color: #ffffff;
+    animation: slideIn RH 0.4s ease-out;
+}
+
+@keyframes slideInRH {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+    color: #0b2340 !important;
+    font-size: 1.8rem;
+}
+
+/* Itens de Contato */
+.contato-item {
+    transition: all 0.3s ease;
+    border-color: #e6eef9 !important;
+}
+
+.contato-item:hover {
+    background-color: #ffffff !important;
+    border-color: #004a99 !important;
+    box-shadow: 0 8px 20px rgba(0, 74, 153, 0.06);
+    transform: translateX(5px); /* Efeito sutil para a direita */
+}
+
+/* Círculo do Ícone */
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+/* Ajustes para o botão fechar */
+.btn-close:focus {
+    box-shadow: none;
+}
+
+/* --- RESPONSIVIDADE (CELULAR) --- */
+/* --- AJUSTES DE RESPONSIVIDADE --- */
+
+@media (max-width: 1024px) {
+    .rh-container {
+        gap: 40px;
+        padding: 0 40px;
+    }
+    
+    .rh-content h2 {
+        font-size: 2.2rem; /* Diminui um pouco o título em tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .rh-container {
+        grid-template-columns: 1fr; /* Muda de 2 colunas para 1 (Texto em cima, fotos embaixo) */
+        text-align: center;
+    }
+
+    .rh-tag {
+        align-self: center; /* Centraliza a tag no topo */
+    }
+
+    .rh-description {
+        max-width: 100%;
+    }
+
+    /* Ajuste dos Pilares para não ficarem esmagados */
+    .rh-pillars {
+        grid-template-columns: 1fr; /* Empilha os 3 itens de RH */
+        gap: 15px;
+    }
+
+    /* Ajuste da Galeria para o Celular */
+    .rh-gallery {
+        grid-template-columns: 1fr 1fr; /* Mantém 2 colunas pequenas */
+        grid-template-rows: auto;        /* Deixa a altura livre */
+        gap: 10px;
+    }
+
+    /* Faz a foto principal ocupar a largura toda mesmo no celular */
+    .gallery-item.large {
+        height: 250px;
+    }
+    
+    .gallery-item.medium, .gallery-item.small {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rh-content h2 {
+        font-size: 1.8rem; /* Título ideal para telas de iPhone/Android */
+    }
+
+    .rh-section {
+        padding: 60px 15px; /* Menos espaço lateral em telas muito pequenas */
+    }
+    
+    .rh-gallery {
+        grid-template-columns: 1fr; /* No celular bem pequeno, as fotos ficam uma por linha */
+    }
+}
+
+/*Fim seção RH*/
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .lab-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .lab-grid {
+    grid-template-columns: 1fr; /* 1 coluna no celular */
+  }
+  
+  .lab-header h2 {
+    font-size: 1.6rem;
+  }
+}
+
+
+
+    /* Cards de produtos */
+    .prod-card{
+      border:0;
+      border-radius:14px;
+      overflow:hidden;
+      transition:transform .28s ease, box-shadow .28s ease
+    }
+
+    .prod-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 40px rgba(11,35,64,0.12)
+    }
+
+    .prod-card .img{
+      height:170px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--glass)
+    }
+
+    .prod-card h5{
+      font-weight:600
+    }
+
+    .badge-ghost{
+      background:transparent;
+      border:1px solid rgba(11,35,64,0.08);
+      padding:6px 10px;
+      border-radius:8px
+    }
+
+    /* =========================================
+   SEÇÃO MEIO AMBIENTE (FUNDO FIXO - PARALLAX)
+   ========================================= */
+/* =========================================
+   ESTILOS GERAIS RH (Compartilhados)
+   ========================================= */
+.tag-sustentabilidade, .tag-reflorestamento {
+    color: #4ade80 !important; /* Verde vibrante para destaque ambiental */
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* =========================================
+   SEÇÃO MESTRE SUSTENTABILIDADE (PARALLAX DUPLO)
+   ========================================= */
+.sustentabilidade-parallax-container {
+    position: relative;
+    width: 100%;
+    /* Altura total das duas seções combinadas */
+    min-height: 200vh; 
+    
+    /* Configurações da Imagem de Fundo (Global) */
+    background-image: url('img/CriancaSorrindo.jpg'); /* Fundo Inicial */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+    /* O SEGREDO DO FUNDO FIXO */
+    background-attachment: fixed; 
+    
+    overflow: hidden; /* Garante que nada vaze */
+    transition: background-image 0.8s ease-in-out; /* Transição suave de fundo */
+}
+
+/* Camada de Contraste (Overlay Global) */
+.sustentabilidade-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente sutil para escurecer a foto e destacar o texto branco */
+    background: linear-gradient(135deg, rgba(11, 35, 64, 0.95) 0%, rgba(11, 35, 64, 0.7) 50%, rgba(11, 35, 64, 0.4) 100%);
+    z-index: 1;
+}
+
+/* Configurações das Seções Internas (Parallax) */
+.parallax-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh; /* Cada seção ocupa a tela toda */
+    display: flex;
+    align-items: center;
+    padding: 100px 0;
+    z-index: 2; /* Fica acima do overlay global */
+}
+
+/* -----------------------------------------
+   MUDANÇA DE FUNDO (SEGUNDA PARTE)
+   ----------------------------------------- */
+/* Quando a segunda seção (#reflorestamento-ativo) entra na tela, 
+   nós mudamos a imagem de fundo do contêiner mestre. */
+#reflorestamento-ativo:not(.bg-transparent) ~ .sustentabilidade-parallax-container {
+    background-image: url('img/CriancaSorrindo.jpg'); /* Mantém o padrão se não tiver efeito */
+}
+
+/* Esta é a abordagem de produção correta para a implementação completa usando JS sutil.
+   Para demonstração pura em CSS, simulamos com seletores de irmãos.
+   Mude a imagem de fundo do container master quando rolar. */
+.sustentabilidade-parallax-container:has(#reflorestamento-ativo.in-view) {
+    background-image: url('img/fazenda-reflorestamento-bg.jpg'); /* Nova Foto da Floresta */
+}
+
+/* -----------------------------------------
+   ESTILOS ESPECÍFICOS: COMPROMISSO (Parte 1)
+   ----------------------------------------- */
+.meio-ambiente-texto h2 {
+    color: #ffffff !important;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    font-weight: 800;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); 
+}
+
+.sust-paragrafos p {
+    color: #ffffff !important; /* Branco puro, sem transparência */
+    opacity: 1 !important;     /* Garante 100% de opacidade */
+    font-weight: 500;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); 
+}
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: SELO CLEAN (Parte 1)
+   ========================================= */
+/* Novo contêiner minimalista para o selo, sem fundo branco */
+.selo-sustentavel-clean {
+    transition: transform 0.3s ease; /* Efeito suave no hover */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza imagem e texto */
+}
+
+.selo-sustentavel-clean:hover {
+    transform: scale(1.05); /* Efeito sutil para cima no hover */
+}
+
+/* Estilo para a legenda do selo, garantindo leitura total */
+.selo-legenda {
+    color: #ffffff !important; /* Branco puro */
+    opacity: 1 !important;     /* Garante 100% de opacidade */
+    /* Sombra sutil para destacar o texto da foto de fundo */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); 
+    font-weight: 700;
+}
+
+/* -----------------------------------------
+   ESTILOS ESPECÍFICOS: REFLORESTAMENTO (Parte 2)
+   ----------------------------------------- */
+.reflorestamento-texto h2 {
+    font-size: 2.8rem;
+    line-height: 1.2;
+    font-weight: 800;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); 
+}
+
+.rh-paragrafos-reflorestamento p {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    font-weight: 500;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); 
+}
+
+/* Card de Foto (Parte 2) */
+.card-reflorestamento-foto {
+    transition: all 0.4s ease;
+    border: none !important;
+}
+
+.card-reflorestamento-foto:hover {
+    transform: translateY(-10px); /* Efeito sutil para cima no hover */
+    box-shadow: 0 20px 40px rgba(0, 74, 153, 0.1) !important;
+}
+
+/* =========================================
+   RESPONSIVIDADE (FOCO TOTAL)
+   ========================================= */
+/* Tablets e Celulares em Paisagem */
+@media (max-width: 991px) {
+    .meio-ambiente-texto h2, .reflorestamento-texto h2 {
+        font-size: 2.2rem; /* Título menor no tablet */
+    }
+}
+
+/* Celulares em Retrato (Mobile First) */
+@media (max-width: 767px) {
+    .parallax-section {
+        padding: 80px 0; /* Menos padding no mobile */
+        min-height: 80vh; /* Reduz altura no mobile */
+        
+        /* Desativar Parallax no mobile para performance */
+        /* background-attachment: scroll; */
+    }
+    
+    .rh-paragrafos p, .rh-paragrafos-reflorestamento p {
+        font-size: 1rem !important;
+        margin-bottom: 20px !important;
+        text-align: left; /* Mantém alinhamento à esquerda no celular */
+    }
+    
+    .selo-sustentavel, .card-reflorestamento-foto {
+        max-width: 100% !important; /* Ocupa largura total no mobile */
+        margin-top: 30px;
+        padding: 20px !important;
+    }
+    
+    .selo-sustentavel img {
+        max-width: 100px !important;
+    }
+}
+
+    /* Section separators */
+    .section-divider{
+      position:relative
+    }
+    .section-divider::after{
+      content:'';
+      display:block;
+      height:40px;
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-40px;
+      background:linear-gradient(180deg,transparent,rgba(11,35,64,0.02));
+      transform:skewY(-2deg)
+    }
+
+    /* Diferenciais */
+    .features .feature{
+      padding:20px;
+      border-radius:12px;
+      background:var(--white);
+      border:1px solid rgba(11,35,64,0.04);
+      height:100%
+    }
+
+    /* Contact */
+    .contact-card{
+      border-radius:14px;
+      padding:18px;
+      background:linear-gradient(180deg,#ffffff,#f6fbff)
+    }
+
+  /* =========================================
+   FOOTER PREMIUM - IPAPEIS
+   ========================================= */
+.footer-premium {
+    background-color: #0b2340; /* Navy mais profundo para elegância */
+    color: #ffffff;
+    padding: 100px 0 40px 0;
+    font-family: 'Inter', sans-serif; /* Sugestão de fonte moderna */
+}
+
+.logo-footer-v2 {
+    height: 70px;
+    filter: brightness(0) invert(1); /* Torna o logo branco se necessário */
+}
+
+/* Redes Sociais Estilizadas */
+.social-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-btn:hover {
+    background-color: #004a99; /* Azul Ipapeis */
+    color: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 74, 153, 0.3);
+}
+
+/* Estilo de Links de Navegação e Contato */
+.footer-nav li, .footer-contact li {
+    margin-bottom: 12px;
+}
+
+.footer-nav a, .footer-contact a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.footer-nav a:hover, .footer-contact a:hover {
+    color: #ffffff;
+    padding-left: 5px; /* Efeito sutil de movimento no hover */
+}
+
+.footer-contact i {
+    font-size: 1.1rem;
+    color: #a1cfff !important; /* Azul claro para os ícones */
+}
+
+/* Ajuste na Linha de Fundo */
+.footer-bottom {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 991px) {
+    .footer-premium {
+        padding: 70px 0 30px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .footer-premium {
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    
+    .footer-nav a:hover {
+        padding-left: 0;
+    }
+}
+
+    .fotoBobina{
+      height: 80px;
+    }
+
+    /* Fim seção irmão siqueira */
+
+    /*Seção unidades*/
+    .unidades-premium-section {
+    padding: 120px 20px;
+    background-color: #ffffff;
+}
+
+.unidades-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho Centralizado (Mantido) */
+.unidades-header-central {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.tag-unidades {
+    color: #004a99;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+}
+
+.unidades-header-central h2 {
+    font-size: 3rem;
+    color: #0b2340;
+    margin: 10px 0 25px;
+}
+
+.unidades-header-central p {
+    color: #64748b;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.7;
+}
+
+/* =========================================
+   Grid de Unidades (Mantido)
+   ========================================= */
+.unidades-grid-premium {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Colunas Largas */
+    gap: 50px; /* Espaço generoso entre os cards */
+}
+
+/* =========================================
+   O Card Premium (AJUSTADO)
+   ========================================= */
+.unidade-card-premium {
+    background: #f8fafc;
+    border-radius: 20px;
+    /* REMOVIDO: padding: 40px; */
+    padding: 0; /* Padding movido para o wrapper interno */
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    border: 1px solid transparent;
+    overflow: hidden; /* Garante que o carrossel siga o arredondamento */
+    height: 100%; /* Para cards de mesma altura no grid */
+}
+
+.unidade-card-premium:hover {
+    background: #ffffff;
+    border-color: #e6eef9;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 74, 153, 0.06);
+}
+
+/* Wrapper para o conteúdo de texto (NOVO) */
+.unidade-content-wrapper {
+    padding: 40px; /* Padding original do card movido para cá */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Faz o wrapper ocupar o resto da altura do card */
+}
+
+/* =========================================
+   Estilos do Carrossel (NOVO)
+   ========================================= */
+.unidade-carousel {
+    border-bottom: 1px solid #e6eef9; /* Linha sutil separando imagem do texto */
+}
+
+.unidade-carousel .carousel-inner img {
+    height: 280px; /* Altura fixa para manter consistência */
+    object-fit: cover; /* Ajusta a imagem sem distorcer */
+}
+
+/* Estilizando os botões de controle para ficarem mais sutis */
+.unidade-carousel .carousel-control-prev-icon,
+.unidade-carousel .carousel-control-next-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: rgba(0, 74, 153, 0.4); /* Azul Ipapeis com transparência */
+    border-radius: 50%;
+    background-size: 55%; /* Ícone menor dentro do círculo */
+    transition: background-color 0.3s ease;
+}
+
+.unidade-carousel:hover .carousel-control-prev-icon,
+.unidade-carousel:hover .carousel-control-next-icon {
+    background-color: rgba(0, 74, 153, 0.8); /* Fica mais opaco no hover */
+}
+
+/* =========================================
+   Foco, Info e Detalhes (Mantidos)
+   ========================================= */
+.unidade-foco {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    color: #004a99;
+}
+
+.unidade-foco i {
+    font-size: 2rem;
+}
+
+.badge-foco {
+    background: #eef6ff;
+    color: #004a99;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.unidade-info-premium h3 {
+    font-size: 2rem;
+    color: #0b2340;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.estado-tag {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.estado-tag.mg { color: #8a94a3; } /* Cor neutra para MG */
+.estado-tag.sp { color: #004a99; } /* Cor destaque para SP */
+
+.unidade-info-premium p {
+    font-size: 1.05rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1; /* Garante que o texto ocupe o espaço e empurre a lista */
+}
+
+.detalhes-unidade {
+    list-style: none;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #0b2340;
+    margin-top: auto; /* Alinha a lista no final do card */
+}
+
+.detalhes-unidade li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detalhes-unidade li::before {
+    color: #004a99;
+    font-weight: bold;
+}
+
+/* =========================================
+   Destaque para o CD 
+   ========================================= */
+.unidade-card-premium.destaque-cd {
+    background: #eef6ff;
+    border: 2px solid #004a99;
+}
+
+.unidade-card-premium.destaque-cd .unidade-carousel {
+    border-bottom-color: #004a99;
+}
+
+.badge-foco.cd {
+    background: #004a99;
+    color: #ffffff;
+}
+
+.unidade-info-premium h3.cd { color: #004a99; }
+
+.detalhes-unidade.cd li::before { color: #004a99; }
+
+/* =========================================
+   Responsividade 
+   ========================================= */
+@media (max-width: 992px) {
+    .unidades-grid-premium {
+        grid-template-columns: 1fr; /* Uma coluna no celular e tablet */
+        gap: 30px;
+    }
+    
+    .unidade-content-wrapper {
+        padding: 30px;
+    }
+}
+
+
+
+    /*Seção Produtos*/
+    /* Container da Sessão */
+.produtos-section {
+    padding: 100px 20px;
+    background-color: #ffffff;
+}
+
+.produtos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho */
+.produtos-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.tag-label {
+    color: #004a99;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.produtos-header h2 {
+    font-size: 2.5rem;
+    color: #0b2340;
+    margin: -4rempx 0 2rem;
+}
+
+.produtos-header p {
+    color: #64748b;
+    max-width: 700px;
+    margin: 3rem auto;
+}
+
+/* Grade de Produtos */
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Grid Inteligente */
+    gap: 30px;
+}
+
+/* O Card do Produto */
+.produto-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #eef2f6;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Imagem do Produto */
+.produto-img {
+    height: 240px;
+    overflow: hidden;
+}
+
+.produto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem sem distorcer */
+    transition: transform 0.6s ease;
+}
+
+.produto-card:hover .produto-img img {
+    transform: scale(1.1);
+}
+
+/* Conteúdo do Card */
+.produto-info {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.produto-info h3 {
+    color: #0b2340;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+
+.produto-info p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* Botão do Card */
+.btn-produto {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 2px solid #004a99;
+    color: #004a99;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 6px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-produto:hover {
+    background-color: #004a99;
+    color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .produtos-header h2 {
+        font-size: 2rem;
+    }
+    
+    .produtos-grid {
+        grid-template-columns: 1fr; /* Uma coluna no celular */
+    }
+}
+
+/*parte aplicações*/
+
+/* Container da Sessão */
+.aplicacoes-impacto {
+    padding:20px;
+    background-color: #ffffff;
+}
+
+.container-impacto {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-central {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+}
+
+.header-central h2{
+  font-weight: bold;
+}
+.tag-azul {
+    color: #004a99;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+}
+
+/* A Linha Impactante */
+.impacto-row {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 120px; /* Espaço grande entre as seções */
+}
+
+/* Classe para inverter a ordem (Zig-Zag) */
+.impacto-row.row-reverse {
+    flex-direction: row-reverse;
+}
+
+/* Área da Imagem */
+.impacto-img {
+    flex: 1;
+    height: 450px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.05);
+}
+
+.impacto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.impacto-row:hover .impacto-img img {
+    transform: scale(1.05);
+}
+
+/* Área do Texto */
+.impacto-info {
+    flex: 1;
+}
+
+.impacto-info h3 {
+    font-size: 2.2rem;
+    color: #0b2340;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.impacto-info p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+/* Lista de diferenciais */
+.lista-check {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-check li {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #0b2340;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Responsividade Máxima */
+@media (max-width: 992px) {
+    .impacto-row, .impacto-row.row-reverse {
+        flex-direction: column; /* Empilha no celular */
+        gap: 40px;
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .impacto-img {
+        width: 100%;
+        height: 300px;
+    }
+
+    .lista-check li {
+        justify-content: center;
+    }
+}
+
+.img-container-destaque {
+    width: 100%;           /* Ocupa toda a largura, como o SVG */
+    height: 280px;         /* Mantém a altura exata definida no SVG */
+    object-fit: cover;     /* Preenche o espaço sem distorcer a imagem */
+    object-position: center; /* Centraliza o foco da foto */
+    border-radius: 10px; 
+    display: block;        /* Remove espaços indesejados abaixo da imagem */
+}
+
+
+/* Estilização do Modal */
+.modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.modal-body .tag-label {
+    font-size: 0.75rem;
+    color: #004a99;
+    letter-spacing: 1.5px;
+}
+
+.modal-body h3 {
+    font-size: 1.8rem;
+    color: #0b2340;
+}
+
+.modal-body ul li {
+    font-size: 0.95rem;
+    color: #475569;
+    display: flex;
+    align-items: center;
+}
+
+/* Ajuste no botão de fechar */
+.btn-close {
+    background-color: #f1f5f9;
+    padding: 10px;
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.btn-close:hover {
+    background-color: #e2e8f0;
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+/* Botão de Orçamento dentro do Modal */
+.modal-body .btn-primary {
+    background-color: #004a99;
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.modal-body .btn-primary:hover {
+    background-color: #003366;
+    transform: scale(1.05);
+}
+
+/* Responsividade do Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        padding: 30px 20px !important;
+    }
+    .modal-body h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* =========================================
+   Botão de WhatsApp (CTA) 
+   ========================================= */
+/* Container para centralizar ou alinhar o botão */
+.cta-whatsapp-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+/* O Botão */
+.btn-whatsapp-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px; /* Espaço entre ícone e texto */
+  background-color: #177e3d;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 8px; /* Bordas levemente arredondadas para um ar moderno */
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+}
+
+/* Efeito de Hover (Passar o mouse) */
+.btn-whatsapp-inline:hover {
+  background-color: #ffffff;
+  color: #25d366;
+  border-color: #25d366;
+  transform: translateY(-3px); /* Leve subida */
+  box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+}
+
+/* Estilo do Ícone */
+.btn-whatsapp-inline i {
+  font-size: 1.4rem;
+}
+
+/* Ajuste Responsivo */
+@media (max-width: 480px) {
+  .btn-whatsapp-inline {
+    width: 100%; /* Ocupa a largura total no celular para facilitar o clique */
+    justify-content: center;
+    font-size: 1rem;
+  }
+}
