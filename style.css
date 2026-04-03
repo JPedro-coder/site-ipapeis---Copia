@@ -32,149 +32,161 @@
     }   
     
     /* PRELOADER */
-#preloader{
+#preloader {
   position: fixed;
   inset: 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:99999;
-  background: linear-gradient(180deg, rgba(1, 58, 170, 0.95), rgba(121, 170, 243, 0.95));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-  visibility: visible;
-  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  background: linear-gradient(180deg, #013aaa, #79aaf3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 20px;
 }
 
-/* central box */
-.preloader-inner{
-  width: min(760px, 92%);
-  max-width: 760px;
-  text-align:center;
-  padding:28px;
-  border-radius:14px;
-  box-shadow: 0 18px 50px rgba(16,24,40,0.08);
-  background: linear-gradient(180deg, rgba(245, 209, 127, 0.95), rgba(84, 173, 255, 0.85));
-  display:grid;
-  gap:18px;
-  align-items:center;
-  grid-template-columns: 120px 1fr;
+.preloader-inner {
+  width: 100%;
+  max-width: 700px; /* Aumentei um pouco a largura total do card no desktop */
+  background: rgba(255, 255, 255, 0.98);
+  padding: 50px;     /* Mais respiro interno */
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  
+  /* Grid Layout - Desktop */
+  display: grid;
+  /* AUMENTADO: Primeira coluna (da logo) agora tem 160px em vez de 100px */
+  grid-template-columns: 160px 1fr; 
+  gap: 40px;         /* Espaço maior entre logo e texto */
+  align-items: center;
 }
 
-/* responsivo: empilha */
-@media (max-width:720px){
-  .preloader-inner{ grid-template-columns: 1fr; padding:20px; gap:12px; }
+/* 2. Ajuste no Container da Logo (Desktop) */
+.pl-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;       
 }
 
-/* logo */
-.pl-logo{
-  width:110px;
-  height:auto;
-  margin:auto;
-  display:block;
-  transform-origin:center;
+/* 3. AUMENTO REAL DA LOGO NO DESKTOP */
+.pl-logo-img {
+  width: 100%;       
+  max-width: 240px;  
+  height: auto;
+  margin-bottom: 15px;
 }
 
-/* stroke (desenho) */
-.logo-stroke{
-  stroke: #0f172a; /* cor do traço - ajuste */
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  transition: stroke-dashoffset 1.2s ease-out;
+
+/* Título (Desktop) */
+.pl-title {
+  font-size: 1.8rem; /* Título maior no desktop */
+  font-weight: 800;
+  color: #0b2340;
+  margin-bottom: 20px;
+  margin-top: 0;
 }
 
-/* pre-finish (aplicado via JS) */
-.pl-animate .logo-stroke{
-  stroke-dashoffset: 0;
+/* Barra de Progresso - REMOVIDO MARGIN-TOP EXAGERADO */
+.pl-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
 }
 
-/* center title */
-.pl-title{
-  font-weight:700;
-  font-size:20px;
-  color:#0f172a;
-  text-align:left;
+.pl-progress {
+  flex: 1;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-/* progress */
-.pl-progress-wrap{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-top:300px;
-  grid-column: 2 / 3;
+.pl-progress-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #013aaa, #0d6efd);
+  width: 0%;
+  transition: width 0.3s ease;
 }
 
-.pl-progress{
-  flex:1;
-  height:8px;
-  background:#72abf1;
-  border-radius:8px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+.pl-percent {
+  font-weight: 700;
+  color: #013aaa;
+  min-width: 45px;
 }
 
-.pl-progress-bar{
-  display:block;
-  height:100%;
-  width:0%;
-  background: linear-gradient(90deg, #0f3acb, #0d6efd);
-  transition: width 220ms linear;
+/* Caixinhas Animadas */
+.pl-boxes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 15px;
 }
 
-/* percent text */
-.pl-percent{
-  min-width:46px;
-  text-align:right;
-  font-weight:600;
-  color:#475569;
+.box {
+  width: 15px;
+  height: 15px;
+  background: #013aaa;
+  border-radius: 4px;
+  animation: boxPop 1.2s infinite ease-in-out;
 }
 
-/* small animated boxes (visual brand hint) */
-.pl-boxes{
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-  grid-column: 2 / 3;
-  margin-top:6px;
+/* AJUSTES MOBILE */
+@media (max-width: 600px) {
+  .preloader-inner {
+    grid-template-columns: 1fr; /* Uma coluna só */
+    text-align: center;
+    padding: 30px 20px;
+    gap: 20px;
+  }
+
+  .pl-logo-container {
+    margin-bottom: 10px;
+  }
+
+  .pl-logo-img {
+    max-width: 160px; /* Ajuste esse valor conforme seu gosto */
+    margin-bottom: 12px;
+  }
+
+  .pl-title {
+    font-size: 1.2rem;
+  }
+
+  .pl-progress-wrap {
+    flex-direction: column; /* Barra em cima do texto no mobile se preferir */
+    gap: 10px;
+  }
+
+  .pl-percent {
+    text-align: center;
+  }
+
+  .pl-boxes {
+    justify-content: center; /* Centraliza as caixinhas no mobile */
+  }
 }
 
-.box{
-  width:22px;
-  height:22px;
-  background: linear-gradient(180deg,#fff,#f3f6ff);
-  border:1px solid #e6edf9;
-  border-radius:4px;
-  box-shadow: 0 6px 18px rgba(15,23,42,0.06);
-  transform-origin:center;
-  opacity:0.95;
-}
-
-/* staggered pop */
-.box.b1 { animation: boxPop 1.2s infinite 0s; }
-.box.b2 { animation: boxPop 1.2s infinite 0.12s; }
-.box.b3 { animation: boxPop 1.2s infinite 0.24s; }
-
+/* Animação das caixas */
 @keyframes boxPop {
-  0% { transform: translateY(0) scale(1); opacity:0.95; }
-  35% { transform: translateY(-8px) scale(1.04); opacity:1; }
-  70% { transform: translateY(0) scale(1); opacity:0.95; }
-  100% { transform: translateY(0) scale(1); opacity:0.95; }
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 1; }
 }
 
-/* hide state */
-#preloader.hidden{
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+.box.b1 { animation-delay: 0s; }
+.box.b2 { animation-delay: 0.2s; }
+.box.b3 { animation-delay: 0.4s; }
+
+
+/* Estado inicial caso o JS demore um milissegundo a ler */
+.js-already-loaded #preloader {
+    display: none !important;
 }
 
-/* small accessibility helper: reduce motion */
-@media (prefers-reduced-motion: reduce){
-  .logo-stroke { transition: none; stroke-dashoffset: 0; }
-  .box { animation: none; }
-  .pl-progress-bar { transition: none; }
-}
+/*Fim preloader*/
 
     /* Navbar */
     .navbar{
@@ -658,7 +670,7 @@
 }
 
 .hero-content h1 {
-    font-size: 7rem;
+    font-size: rem;
     font-family: 'montserrat', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     max-width: 800px;
     font-weight: bold;
@@ -784,26 +796,42 @@
 
 /*Fim secão cards de destaque */
 
+/* 1. Ajuste na classe principal (Desktop e Geral) */
 .titulo-conceitual {
   display: flex;
-  padding-right: 2rem;
+  flex-wrap: wrap;       /* ESSENCIAL: Permite que a imagem desça se não houver espaço */
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1rem;             /* Reduzi um pouco o gap */
   font-size: 2.6rem;
   font-weight: 300;
   letter-spacing: 0.04em;
+  text-align: center;    /* Garante centralização quando o texto quebrar */
+  padding: 0 1rem;       /* Padding lateral em vez de apenas na direita */
 }
 
-.titulo-conceitual span {
-  font-weight: 700;
-  color: var(--primaria);
-}
-
+/* 2. Remova a duplicidade da árvore e use valores relativos */
 .titulo-conceitual .arvore {
-  width: 72px;
+  width: 80px;           /* Tamanho base */
   height: auto;
+  flex-shrink: 0;        /* Impede que a imagem seja "esmagada" pelo flex */
 }
+
+/* 3. Ajustes para Mobile */
+@media (max-width: 768px) {
+  .titulo-conceitual {
+    font-size: 1.8rem;   /* Tamanho de fonte mais amigável para celular */
+    gap: 0.5rem;
+    padding-right: 0;    /* Remove aquele padding-right fixo que tira o centro */
+  }
+
+  .titulo-conceitual .arvore {
+    width: 50px;         /* Árvore menor no mobile */
+  }
+}
+
+/* Limpeza: Você tinha duas declarações para .arvore, delete a solta abaixo se houver: */
+/* .arvore { width: 120px; ... } <- DELETE ISSO */
 
 
 .projeto-texto h3 {
@@ -811,14 +839,6 @@
   margin-bottom: 1rem;
   color: #c59054;
 }
-
-.arvore{
-    width: 120px;
-    height: auto;
-    margin-left: 10px;
-    margin-bottom: 15px;
-}
-
 
 /* Responsivo */
 @media (max-width: 900px) {
@@ -829,30 +849,68 @@
 
 
     /* Hero */
-    .leadTotal {
-    height: 100vh;
-    background-image: linear-gradient(rgba(2, 2, 5, 0.582), rgba(15, 15, 17, 0.541)), url('img/floresta_1x.webp');
-    text-shadow: 2px 2px 4px rgba(8, 9, 14, 0.856); /* Sombra sutil para dar profundidade */
+   .leadTotal {
+    /* MUDANÇA: min-height garante que a seção cresça se o texto for longo */
+    min-height: 100vh; 
+    height: auto;
+    
+    background-image: linear-gradient(rgba(2, 2, 5, 0.7), rgba(15, 15, 17, 0.7)), url('img/floresta_1x.webp');
+    background-size: cover;
+    background-position: center;
+    
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--light-bg);
-    padding: 0 20px;
+    color: white;
+    padding: 80px 0; /* Espaçamento para o conteúdo não grudar no topo/base */
     position: relative;
-    padding: 70px 0
 }
 
-    .leadTotal .tag{
-      display:inline-block;
-      background: linear-gradient(rgba(255, 233, 209, 0.849)65), rgba(247, 186, 145, 0.452);
-      color: #f3cca6;
-      padding:6px 12px;
-      border-radius:30px;
-      font-weight:600;
-      margin-bottom:18px
+/* Ajuste na TAG */
+.leadTotal .tag {
+    display: inline-block;
+    background: rgba(243, 204, 166, 0.2); /* Fundo semi-transparente mais moderno */
+    color: #f3cca6;
+    padding: 6px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(243, 204, 166, 0.4);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Títulos mais responsivos */
+.leadTotal h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Fonte que se ajusta sozinha ao tamanho da tela */
+    line-height: 1.2;
+}
+
+/* Imagem Destaque */
+.img-container-destaque {
+    width: 100%;
+    max-width: 550px; /* Evita que a foto fique gigante em telas ultra-wide */
+    height: 400px;    /* Aumentei um pouco para o desktop */
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    margin: 0 auto;   /* Centraliza no mobile */
+}
+
+/* MEDIA QUERIES PARA MOBILE */
+@media (max-width: 991px) {
+    .leadTotal {
+        text-align: center;
+        padding-top: 120px; /* Espaço para o menu fixo se houver */
     }
 
+    .img-container-destaque {
+        height: 250px; /* Reduz a altura da imagem no celular */
+        margin-top: 30px;
+    }
+    
+    .list-unstyled {
+        align-items: center; /* Centraliza a lista de checks no mobile */
+    }
+}
     .hero h1{
       font-size:2.6rem;
       color:var(--light-bg);
@@ -871,7 +929,7 @@
       overflow:hidden;
       box-shadow:0 10px 30px rgba(11,35,64,0.12);
       background:linear-gradient(180deg,var(--white), #eef6ff);
-      padding:30px
+      padding:42px
     }
 
     /* Container dos botões */
@@ -951,15 +1009,21 @@
     /* Container da Seção */
 .laboratorio-section {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/foto-inovacao.jpg');
-    background-size: cover;           /* FAZ A MÁGICA: Redimensiona a imagem para cobrir tudo sem distorcer */
-    background-position: center;      /* Centraliza a imagem para não cortar o que é importante */
-    background-repeat: no-repeat;     /* Impede que a imagem fique se repetindo como um mosaico */
-    background-attachment: fixed;     /* Opcional: cria um efeito 'Parallax' elegante ao rolar a página */
-    height: 100%;    
-    width: 100vw;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* MUDANÇA AQUI: background-attachment fixed costuma dar erro no mobile */
+    background-attachment: scroll; 
+    
+    /* MUDANÇA AQUI: min-height em vez de height */
+    min-height: 100vh; 
+    width: 100%; 
     display: flex;
     flex-direction: column;
-    justify-content: center;         /* Centraliza o conteúdo verticalmente sobre a imagem */
+    justify-content: center;
+    padding: 60px 0; /* Adiciona respiro interno */
+    position: relative;
 }
 
 /* Cabeçalho */
@@ -981,12 +1045,16 @@
   line-height: 1.6;
 }
 
+
 /* Grid de 4 Colunas */
+/* 2. Ajuste do Grid para Desktop (garantindo que não quebre) */
 .lab-grid {
-  display: grid;
-  margin: 2.2em;
-  grid-template-columns: repeat(4, 1fr); /* 4 colunas iguais */
-  gap: 25px;
+    display: grid;
+    margin: 2.2em auto;
+    max-width: 1200px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 0 20px;
 }
 
 /* Estilo do Card individual */
@@ -1065,6 +1133,29 @@
 
 .lab-icon{
   font-size: 32px;
+}
+
+@media (max-width: 768px) {
+    .laboratorio-section {
+        height: auto; /* Permite que a seção cresça conforme o conteúdo */
+        padding: 40px 0;
+    }
+
+    .lab-grid {
+        /* Transforma as 4 colunas em apenas 1 ou 2 no mobile */
+        grid-template-columns: 1fr; 
+        margin: 1em;
+        gap: 15px;
+    }
+
+    .lab-header {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .lab-header h2 {
+        font-size: 1.5rem; /* Diminui um pouco o título no mobile */
+    }
 }
 
 
@@ -1545,6 +1636,16 @@
     .ps-md-5 {
         padding-left: 0 !important;
     }
+
+   @media (max-width: 576px) {
+    .botaoRH {
+        width: 100%; /* No mobile ele volta a ser largo */
+    }
+    
+    h2.rh-title-center {
+        font-size: 2.2rem !important; /* Ajuste de título para telas pequenas */
+    }
+}
 }
 
 /* =========================================
@@ -2365,6 +2466,7 @@
 @media (max-width: 768px) {
     .produtos-header h2 {
         font-size: 2rem;
+        margin-top: -40px;
     }
     
     .produtos-grid {
@@ -2485,16 +2587,8 @@
 
     .lista-check li {
         justify-content: center;
+        padding-bottom: -80px;
     }
-}
-
-.img-container-destaque {
-    width: 100%;           /* Ocupa toda a largura, como o SVG */
-    height: 280px;         /* Mantém a altura exata definida no SVG */
-    object-fit: cover;     /* Preenche o espaço sem distorcer a imagem */
-    object-position: center; /* Centraliza o foco da foto */
-    border-radius: 10px; 
-    display: block;        /* Remove espaços indesejados abaixo da imagem */
 }
 
 

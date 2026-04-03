@@ -128,32 +128,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 })();
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
-
-ScrollSmoother.create({
-  smooth: 1.5,
-  effects: true,
-});
-
-// NavBar
 document.addEventListener("DOMContentLoaded", function() {
-    let lastScrollTop = 0;
-    // Selecionamos a navbar pela classe do Bootstrap
-    const navbar = document.querySelector('.navbar');
-
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-            if (scrollTop > lastScrollTop && scrollTop > 150) {
-                // ROLANDO PARA BAIXO: Esconde com força
-                navbar.style.setProperty('transform', 'translateY(-100%)', 'important');
-            } else {
-                // ROLANDO PARA CIMA: Mostra
-                navbar.style.setProperty('transform', 'translateY(0)', 'important');
-            }
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        }, { passive: true });
+    const preloader = document.getElementById('preloader');
+    
+    // Verifica se o usuário já passou pela home nesta sessão
+    if (sessionStorage.getItem("homeCarregada")) {
+        // Se já carregou uma vez, remove o preloader imediatamente sem animação
+        if (preloader) {
+            preloader.style.display = 'none';
+            preloader.style.visibility = 'hidden';
+        }
+    } else {
+        // Se é a primeira vez, executa a animação de carregamento normalmente
+        window.addEventListener("load", function() {
+            // Aqui vai sua lógica atual de esconder o preloader (ex: setTimeout)
+            setTimeout(() => {
+                preloader.classList.add('hidden'); // Sua classe de sumir
+                
+                // MARCA QUE A HOME JÁ FOI VISTA
+                sessionStorage.setItem("homeCarregada", "true");
+            }, 1000); 
+        });
     }
 });
